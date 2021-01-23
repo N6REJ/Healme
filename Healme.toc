@@ -1,0 +1,18 @@
+## Interface: 90002
+## Title: Healme
+## Notes: A healing user-interface addon that provides up to 15 customizable buttons next to each party or raid members name.  Based on Healium.
+## SavedVariables: HealmeGlobal
+## SavedVariablesPerCharacter: Healme
+## Globe: check-classic
+UIDropDownMenuTemplates.xml
+UIDropDownMenu.lua
+HealmeHealButton.lua
+HealmeSpells.lua
+HealmeSlashCommands.lua
+HealmeConfigPanel.lua
+HealmeMinimapButton.lua
+Healme.lua
+HealmeMenu.lua
+Healme.xml
+HealmeUnitFrames.xml
+HealmeUnitFrames.lua
