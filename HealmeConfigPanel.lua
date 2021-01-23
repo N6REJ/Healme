@@ -854,7 +854,7 @@ function Healme_CreateConfigPanel(Class, Version)
     AboutFrame.Text:SetWidth(330)
     AboutFrame.Text:SetJustifyH("LEFT")
     AboutFrame.Text:SetPoint("TOPLEFT", 7,-10)
-    AboutFrame.Text:SetText(Healme_AddonColoredName .. Version .. " |cFFFFFFFFCreated by Engee of Durotan.|n|n|cFFFFFFFFOriginally based on FB Heal Box, which was created by Dourd of Argent Dawn EU.")
+    AboutFrame.Text:SetText(Healme_AddonColoredName .. Version .. " |cFFFFFFFFCreated by Bearesquishy of Dalaran.|n|n|cFFFFFFFFOriginally based on Healium, which was created by Dourd of Argent Dawn EU.")
 
 	-- Init Config Panel controls
 	if not IsClassic then 

@@ -16,7 +16,7 @@ local IsClassic = _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC
 local LowHP = 0.6
 local VeryLowHP = 0.3
 local NamePlateWidth = 120
-local HealmeClass = UnitClass("player")
+local _, HealmeClass = UnitClass("player")
 local _, HealmeRace = UnitRace("player")
 local HealmeSpec = GetSpecialization()
 local MaxParty = 5 -- Max number of people in party
@@ -24,7 +24,6 @@ local MinRangeCheckPeriod = .2 -- .2 = 5Hz
 local MaxRangeCheckPeriod = 2  -- 2 = .5Hz
 local DefaultRangeCheckPeriod = .5
 local DefaultButtonCount = 5
-message("hi bear" .. HealmeSpec)
 
 -- locale safe versions of spell names
 local ActivatePrimarySpecSpellName = GetSpellInfo(63645)
@@ -1355,6 +1354,7 @@ function Healme_OnEvent(frame, event, ...)
 		Healme_ShowHideTargetFrame()
 		Healme_ShowHideFocusFrame()
 
+
 		for i=1, 8, 1 do
 			Healme_ShowHideGroupFrame(i)
 		end
@@ -1364,10 +1364,8 @@ function Healme_OnEvent(frame, event, ...)
 
 	-- spec change event
 	if (event == "PLAYER_SPECIALIZATION_CHANGED") then
-		local HealmeSpec = GetSpecialization()
-
 	-- OK ITS CHANGED, NOW WHAT?
-		message("spec changed" .. HealmeClass .. HealmeSpec)
+
 		return
 	end
 end
