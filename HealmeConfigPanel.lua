@@ -118,6 +118,7 @@ end
 local function SpecializationCheck_OnClick(frame)
 	Healme.DisableNonHealSpec = frame:GetChecked() or false
 	Healme_NonSpecHide()
+	Healme_UpdateButtonVisibility()
 end
 
 local function TooltipsCheck_OnClick(frame)
