@@ -1359,13 +1359,14 @@ function Healme_OnEvent(frame, event, ...)
 			Healme_ShowHideGroupFrame(i)
 		end
 		
+		Healme_NonSpecHide()
 		return
 	end
 
 	-- spec change event
 	if (event == "PLAYER_SPECIALIZATION_CHANGED") then
 	-- OK ITS CHANGED, NOW WHAT?
-
+		Healme_NonSpecHide()
 		return
 	end
 end

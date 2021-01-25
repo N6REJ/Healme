@@ -115,6 +115,11 @@ local function MaxButtonSlider_Update(frame)
 	Healme_SetButtonCount(fixed_value)
 end
 
+local function SpecializationCheck_OnClick(frame)
+	Healme.DisableNonHealSpec = frame:GetChecked() or false
+	Healme_NonSpecHide()
+end
+
 local function TooltipsCheck_OnClick(frame)
 	Healme.ShowToolTips = frame:GetChecked() or false
 end
@@ -351,7 +356,17 @@ function Healme_CreateConfigPanel(Class, Version)
 	HealmeClassIcon.Text:SetPoint("CENTER",0,-38)
 	HealmeClassIcon.Text:SetTextColor(1,1,0.2,1)
 
- 	
+ 	-- Specialization Check Button
+    local SpecializationCheck = CreateFrame("CheckButton","$parentSpecializationCheckButton",scrollchild,"OptionsCheckButtonTemplate")
+	SpecializationCheck:SetPoint("TOPRIGHT",-180,-70)	
+    
+    SpecializationCheck.Text = SpecializationCheck:CreateFontString(nil, "BACKGROUND","GameFontNormal")
+	SpecializationCheck.Text:SetPoint("LEFT", SpecializationCheck, "RIGHT", 0)
+    SpecializationCheck.Text:SetText("Heal Spec Only")
+	
+    SpecializationCheck:SetScript("OnClick", SpecializationCheck_OnClick)
+	SpecializationCheck.tooltipText = "Toggles addon for healer specialization only."
+	
 	-- ToolTips Check Button
     local TooltipsCheck = CreateFrame("CheckButton","$parentShowTooltipCheckButton",scrollchild,"OptionsCheckButtonTemplate")
 	TooltipsCheck:SetPoint("TOPLEFT",5,-70)	
@@ -864,7 +879,8 @@ function Healme_CreateConfigPanel(Class, Version)
 	end
 	
 	Healme_Update_ConfigPanel()
-	
+
+	SpecializationCheck:SetChecked(Healme.DisableNonHealSpec)
 	TooltipsCheck:SetChecked(Healme.ShowToolTips)
 	ShowManaCheck:SetChecked(Healme.ShowMana)
 	PercentageCheck:SetChecked(Healme.ShowPercentage)
