@@ -54,15 +54,16 @@ Healme_Sounds = {
 	{ ["Space Death"] = { retail = 1, fileid = 567198, path = "Sound\\Effects\\DeathImpacts\\SpaceDeathUni.ogg" }},
 	{ ["Tribal Bell"] = { fileid = 566027, path = "Sound\\Doodad\\BellTollTribal.ogg" }},
 	{ ["Wisp"] = { fileid = 567294, path = "Sound\\Event Sounds\\Wisp\\WispPissed2.ogg" }},
-	{ ["Woman Scream"] = { retail = 1, fileid = 598223, path = "Sound\\Events\\EbonHold_WomanScream1_02.ogg" }}
+	{ ["Woman Scream"] = { retail = 1, fileid = 598223, path = "Sound\\Events\\EbonHold_WomanScream1_02.ogg" } },
+	{ ["Vocal: Purge Debuff"] = { localfile = 1, path = "Interface\\AddOns\\Healme\\sounds\\purge_debuff.mp3"}}
 }
-
-
 
 function Healme_GetSoundPath(sound)
 	for i,j in ipairs(Healme_Sounds) do
 		if sound == next(j, nil) then
-			if IsClassic then 
+
+			-- use "localfile = 1" in table for files included in Healme
+			if j[sound].localfile == 1 then
 				return j[sound].path
 			else
 				return j[sound].fileid
@@ -77,14 +78,14 @@ function Healme_InitDebuffSound()
 	DebuffSoundPath = Healme_GetSoundPath(Healme.DebufAudioFile)
 	
 	if DebuffSoundPath == nil then
-		Healme.DebufAudioFile = "Horde Bell"
+		Healme.DebufAudioFile = "Alliance Bell"
 		DebuffSoundPath = Healme_GetSoundPath(Healme.DebufAudioFile)
 	end
 end
 
 function Healme_PlayDebuffSound()
 	Healme_DebugPrint("playing sound " .. DebuffSoundPath)
-	PlaySoundFile(DebuffSoundPath)	
+	PlaySoundFile(DebuffSoundPath, "Master")
 end
 
 local function CreateButton(ButtonName,ParentFrame,xoffset)
