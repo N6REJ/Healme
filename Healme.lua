@@ -45,6 +45,7 @@ Healme = {
   RangeCheckPeriod = .5,						-- Time period between range checks  
   EnableCooldowns = true,						-- Whether or not to do cooldown animations on buttons
   ShowToolTips = true,							-- Whether or not to display a tooltip for the spell when hovering over buttons
+  DisableNonHealSpec = true,
   ShowPercentage = true,						-- Whether or not to display the health percentage
   UseClassColors = false,						-- Whether or not to color the healthbar the color of the class instead of green/yellow/red
   ShowDefaultPartyFrames = false,				-- Whether or not to show the default party frames
@@ -990,6 +991,10 @@ local function InitVariables()
 	if Healme.ShowGroupFrames == nil then
 		Healme.ShowGroupFrames = { }
 	end
+	
+	if Healme.DisableNonHealSpec == nil then
+		Healme.DisableNonHealSpec = true
+	end	
 	
 	if Healme.ShowToolTips == nil then
 		Healme.ShowToolTips = true
