@@ -9,7 +9,6 @@ local AddonVersion = "|cFFFFFF00 1.0.0|r"
 
 HealmeDropDown = {} -- the dropdown menus on the config panel
 
-
 local IsClassic = _G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC
 
 -- Constants
