@@ -1090,7 +1090,7 @@ function Healme_UpdateUnitBuffs(unit, frame)
 					
 					if Healme.EnableDebufAudio then
 						local now = GetTime()
-						if unit == "player" or UnitInRange(unit) then -- UnitInRange will return false for "player"
+						if UnitInRange(unit) then -- UnitInRange will return false for "player"
 							if now > (LastDebuffSoundTime + 7) then
 								Healme_PlayDebuffSound()
 								LastDebuffSoundTime = now
