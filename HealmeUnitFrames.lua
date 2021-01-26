@@ -41,6 +41,28 @@ local Atonement = GetSpellInfo(81749) -- Atonement: Plea, Power Word: Shield, Sh
 local GlimmerOfLight = GetSpellInfo(325983) -- Glimmer of Light is a buff when a paladin with the Glimmer of Light talent casts Holy Shock
 local Tranquility = GetSpellInfo(740) -- Tranquility - HOT from Druid casting Tranquility
 
+local defaults = {
+		["PartyFrameWasShown"] = true,
+		["PetFrameWasShown"] = true,
+		["MeFrameWasShown"] = false,
+		["FriendsFrameWasShown"] = false,
+		["DamagersFrameWasShown"] = false,
+		["HealersFrameWasShown"] = false,
+		["TanksFrameWasShown"] = false,
+		["TargetFrameWasShown"] = false,
+		["FocusFrameWasShown"] = false,
+		["Group1FrameWasShown"] = false,
+		["Group2FrameWasShown"] = false,
+		["Group3FrameWasShown"] = false,
+		["Group4FrameWasShown"] = false,
+		["Group5FrameWasShown"] = false,
+		["Group6FrameWasShown"] = false,
+		["Group7FrameWasShown"] = false,
+		["Group8FrameWasShown"] = false,
+}
+
+Healme = Healme or defaults;
+
 -- sounds ids from https://wow.tools/files/#search=&page=1&sort=0&desc=asc
 Healme_Sounds = {
 	{ ["Alliance Bell"] = { fileid = 566564, path = "Sound\\Doodad\\BellTollAlliance.ogg"}},
@@ -619,6 +641,66 @@ local function IsAnyUnitFrameVisible()
 	end
 
 	return nil
+end
+
+function Healme_HealSpec()
+	local _, _, classId = UnitClass('player');
+	local specId = GetSpecialization();
+	--[[[1] = 'Warrior',
+		[2] = 'Paladin',
+		[3] = 'Hunter',
+		[4] = 'Rogue',
+		[5] = 'Priest',
+		[6] = 'DeathKnight',
+		[7] = 'Shaman',
+		[8] = 'Mage',
+		[9] = 'Warlock',
+		[10] = 'Monk',
+		[11] = 'Druid',
+		[12] = 'DemonHunter',]]
+		
+	if (classId == 2 and specId == 1) or
+	(classId == 5 and specId == 2) or
+	(classId == 7 and specId == 3) or
+	(classId == 10 and specId == 2) or
+	(classId == 11 and specId == 4)	then
+		return true;
+	end
+	return false;
+end
+
+function Healme_NonSpecHide()
+	if HealmePanelScrollFrameScrollChildSpecializationCheckButton:GetChecked() and not Healme_HealSpec() then
+		local _Frame_Names = {'Party', 'Pet', 'Me', 'Friends', 'Damagers', 'Healers', 'Tanks', 'Target', 'Focus', 'Group'};
+		for _, frameName in pairs(_Frame_Names) do
+			if frameName == 'Group' then
+				for i = 1, 8 do
+					local frame = _G["Healme" .. frameName .. i .. "Frame"];
+					frame:SetAlpha(0);
+					frame:EnableMouse(false);
+				end
+			else
+				local frame = _G["Healme" .. frameName .. "Frame"];
+				frame:SetAlpha(0);
+				frame:EnableMouse(false);				
+			end
+		end
+	else
+		local _Frame_Names = {'Party', 'Pet', 'Me', 'Friends', 'Damagers', 'Healers', 'Tanks', 'Target', 'Focus', 'Group'};
+		for _, frameName in pairs(_Frame_Names) do
+			if frameName == 'Group' then
+				for i = 1, 8 do
+					local frame = _G["Healme" .. frameName .. i .. "Frame"];
+					frame:SetAlpha(1);
+					frame:EnableMouse(true);
+				end
+			else
+				local frame = _G["Healme" .. frameName .. "Frame"];
+				frame:SetAlpha(1);
+				frame:EnableMouse(true);
+			end
+		end
+	end
 end
 
 function Healme_ToggleAllFrames()

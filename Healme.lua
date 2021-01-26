@@ -883,13 +883,17 @@ local function UpdateButtonVisibility(frame)
 		end
 	end
 
-	-- Show buttons.  The buttons will not actually show up unless their nameplate are visible so it's fine to show them like this.	
-	local count = Healme_GetProfile().ButtonCount
-	
-	for i=1, count, 1 do 
-		local button = frame.buttons[i]	
-		if button then 
-			button:Show()
+	if HealmePanelScrollFrameScrollChildSpecializationCheckButton:GetChecked() and not Healme_HealSpec() then
+		return;
+	else
+		-- Show buttons.  The buttons will not actually show up unless their nameplate are visible so it's fine to show them like this.	
+		local count = Healme_GetProfile().ButtonCount
+		
+		for i=1, count, 1 do 
+			local button = frame.buttons[i]	
+			if button then 
+				button:Show()
+			end
 		end
 	end
 end
@@ -1359,13 +1363,16 @@ function Healme_OnEvent(frame, event, ...)
 			Healme_ShowHideGroupFrame(i)
 		end
 		
+		Healme_NonSpecHide()
+		Healme_UpdateButtonVisibility()
 		return
 	end
 
 	-- spec change event
 	if (event == "PLAYER_SPECIALIZATION_CHANGED") then
 	-- OK ITS CHANGED, NOW WHAT?
-
+		Healme_NonSpecHide()
+		Healme_UpdateButtonVisibility()
 		return
 	end
 end

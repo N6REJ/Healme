@@ -1,4 +1,5 @@
 1.0.1
-making a change
+Added feature to disable addon when not in healer specialization.
+
 1.0.0
 Initial Fork.
