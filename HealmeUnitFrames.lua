@@ -65,18 +65,18 @@ Healme = Healme or defaults;
 
 -- sounds ids from https://wow.tools/files/#search=&page=1&sort=0&desc=asc
 Healme_Sounds = {
-	{ ["Alliance Bell"] = { fileid = 566564, path = "Sound\\Doodad\\BellTollAlliance.ogg"}},
-	{ ["Bellow"] = { fileid = 566234, path = "Sound\\Doodad\\BellowIn.ogg" }},
-	{ ["Dwarf Horn"] = {fileid = 566064, path = "Sound\\Doodad\\DwarfHorn.ogg" }},
-	{ ["Gruntling Horn A"] = {retail = 1, fileid = 598076, path = "Sound\\Events\\gruntling_horn_aa.ogg" }},
-	{ ["Gruntling Horn B"] = {retail = 1, fileid = 598196, path = "Sound\\Events\\gruntling_horn_bb.ogg" }},
-	{ ["Horde Bell"] = { fileid = 565853, path = "Sound\\Doodad\\BellTollHorde.ogg" }},
-	{ ["Man Scream"] = { retail = 1, fileid = 598052, path = "Sound\\Events\\EbonHold_ManScream1_02.ogg" }},
-	{ ["Night Elf Bell"] = { fileid = 566558, path = "Sound\\Doodad\\BellTollNightElf.ogg" }},
-	{ ["Space Death"] = { retail = 1, fileid = 567198, path = "Sound\\Effects\\DeathImpacts\\SpaceDeathUni.ogg" }},
-	{ ["Tribal Bell"] = { fileid = 566027, path = "Sound\\Doodad\\BellTollTribal.ogg" }},
-	{ ["Wisp"] = { fileid = 567294, path = "Sound\\Event Sounds\\Wisp\\WispPissed2.ogg" }},
-	{ ["Woman Scream"] = { retail = 1, fileid = 598223, path = "Sound\\Events\\EbonHold_WomanScream1_02.ogg" } },
+	{ ["Alliance Bell"] = { fileid = 566564 }},
+	{ ["Bellow"] = { fileid = 566234 }},
+	{ ["Dwarf Horn"] = {fileid = 566064 }},
+	{ ["Gruntling Horn A"] = { fileid = 598076 }},
+	{ ["Gruntling Horn B"] = { fileid = 598196 }},
+	{ ["Horde Bell"] = { fileid = 565853 }},
+	{ ["Man Scream"] = { fileid = 598052 }},
+	{ ["Night Elf Bell"] = { fileid = 566558 }},
+	{ ["Space Death"] = { fileid = 567198 }},
+	{ ["Tribal Bell"] = { fileid = 566027 }},
+	{ ["Wisp"] = { fileid = 567294 }},
+	{ ["Woman Scream"] = { fileid = 598223 } },
 	{ ["Vocal: Purge Debuff"] = { localfile = 1, path = "Interface\\AddOns\\Healme\\sounds\\purge_debuff.mp3"}}
 }
 
