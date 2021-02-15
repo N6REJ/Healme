@@ -7,16 +7,16 @@ function Healme_CreateMiniMapButton()
   LibRealmInfo = LibStub("LibRealmInfo")
 
   -- Set up DataBroker for minimap button
-  SimcLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Healme", {
+ HealmeLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Healme", {
     type = "data source",
     text = "Healme",
     label = "Healme",
     icon = "Interface\\AddOns\\Healme\\images\\heartx64.tga",
     OnClick = function()
-      if SimcFrame and SimcFrame:IsShown() then
-        SimcFrame:Hide()
+      if HealmeFrame and HealmeFrame:IsShown() then
+       HealmeFrame:Hide()
       else
-        Healme:PrintSimcProfile(false, false)
+        Healme:PrintHealmeProfile(false, false)
       end
     end,
     OnTooltipShow = function(tt)
@@ -28,4 +28,7 @@ function Healme_CreateMiniMapButton()
   })
 
   LibDBIcon = LibStub("LibDBIcon-1.0")
+  Healme_button = LibDBIcon
+  LibDBIcon:Register("Healme", HealmeLDB, self.db.profile.minimap)
+  LibDBIcon:Show("Healme")
 end
