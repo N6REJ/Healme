@@ -163,7 +163,7 @@ end
 --
 -- **Note:** This function is for internal use by :NewAddon/:NewModule
 -- @paramsig addon, [lib, ...]
--- @param addon addon object to embed the libs in
+-- @param addon addon object to embed the Libs in
 -- @param lib List of libraries to embed into the addon
 function AceAddon:EmbedLibraries(addon, ...)
 	for i=1,select("#", ... ) do
