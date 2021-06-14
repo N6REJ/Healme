@@ -92,13 +92,13 @@ function Healme_GetSoundPath(sound)
 			end
 		end
 	end
-	
+
 	return nil
 end
 
 function Healme_InitDebuffSound()
 	DebuffSoundPath = Healme_GetSoundPath(Healme.DebufAudioFile)
-	
+
 	if DebuffSoundPath == nil then
 		Healme.DebufAudioFile = "Alliance Bell"
 		DebuffSoundPath = Healme_GetSoundPath(Healme.DebufAudioFile)
@@ -120,7 +120,7 @@ end
 function Healme_CreateButtonsForNameplate(frame)
 	local x = xSpacing
 	local Profile = Healme_GetProfile()
-	
+
 	for i=1, Healme_MaxButtons, 1 do
 		name = frame:GetName()
 		button = CreateButton(name.."_Heal"..i, frame, x)
@@ -131,25 +131,25 @@ function Healme_CreateButtonsForNameplate(frame)
 
 		-- set spell attribute for button
 		Healme_SetButtonAttributes(button)
-		
+
 		-- set icon for button
-		local texture = Profile.SpellIcons[i]	
+		local texture = Profile.SpellIcons[i]
 		Healme_UpdateButtonIcon(button, texture)
-	
-		if (i > Profile.ButtonCount) then 
+
+		if (i > Profile.ButtonCount) then
 			button:Hide()
-			
+
 			if button:IsShown() then
 				Healme_Warn("Failed to hide heal button")
 			end
 		else
 			button:Show()
-			
+
 			if not button:IsShown() then
 				Healme_Warn("Failed to show heal button")
 			end
 		end
-	end	
+	end
 end
 
 local function SetHeaderAttributes(frame)
@@ -160,14 +160,14 @@ local function SetHeaderAttributes(frame)
 	frame:SetAttribute("point", "TOP")
 	frame:SetAttribute("template", "HealmeUnitFrames_ButtonTemplate")
 	frame:SetAttribute("templateType", "Button")
-	frame:SetAttribute("unitsPerColumn", 5) 
+	frame:SetAttribute("unitsPerColumn", 5)
 end
 
 local function CreateHeader(TemplateName, FrameName, ParentFrame)
 	local f = CreateFrame("Frame", FrameName, ParentFrame, TemplateName)
 	ParentFrame.hdr = f
-	f:SetPoint("TOPLEFT", ParentFrame, "BOTTOMLEFT")	
-	SetHeaderAttributes(f)			
+	f:SetPoint("TOPLEFT", ParentFrame, "BOTTOMLEFT")
+	SetHeaderAttributes(f)
 	return f
 end
 
@@ -192,9 +192,9 @@ end
 
 local function CreateUnitFrame(FrameName, Caption, IsPet, Group)
 	local uf = CreateFrame("Frame", FrameName, UIParent, "HealmeUnitFrameTemplate")
-	table.insert(UnitFrames, uf) 	
+	table.insert(UnitFrames, uf)
 	uf.CaptionBar.Caption:SetText(Caption)
-	UpdateCloseButton(uf)	
+	UpdateCloseButton(uf)
 	UpdateHideCaption(uf)
 	return uf
 end
@@ -202,18 +202,20 @@ end
 local function CreatePetHeader(FrameName, ParentFrame)
 	local h = CreateHeader("SecureGroupPetHeaderTemplate", FrameName, ParentFrame)
 	h:SetAttribute("filterOnPet", "true")
-	h:SetAttribute("unitsPerColumn", 40) -- allow pets frame to show more than 5	
-	h:SetAttribute("showSolo", "true")	
-	h:SetAttribute("showRaid", "true")	
-	h:SetAttribute("showParty", "true")	
+	h:SetAttribute("unitsPerColumn", 40) -- allow pets frame to show more than 5
+	h:SetAttribute("showSolo", "true")
+	h:SetAttribute("showRaid", "true")
+	h:SetAttribute("showParty", "true")
 	h:Show()
 	return h
 end
 
 local function CreateGroupHeader(FrameName, ParentFrame, Group)
 	local h = CreateHeader("SecureGroupHeaderTemplate", FrameName, ParentFrame)
-	h:SetAttribute("groupFilter", Group)	
-	h:SetAttribute("showRaid", "true")	
+	h:SetAttribute("groupFilter", Group)
+	h:SetAttribute("showRaid", "false")
+	h:SetAttribute("showSolo", "false")
+	h:SetAttribute("showParty", "false")
 	h:Show()
 	return h
 end
@@ -222,18 +224,20 @@ local function CreateDamagersHeader(FrameName, ParentFrame)
 	local h = CreateHeader("SecureGroupHeaderTemplate", FrameName, ParentFrame)
 	h:SetAttribute("unitsPerColumn", 40) -- allow  frame to show more than 5
 	h:SetAttribute("roleFilter", "DAMAGER")
-	h:SetAttribute("showParty", "true")
-	h:SetAttribute("showRaid", "true")	
+	h:SetAttribute("showParty", "false")
+	h:SetAttribute("showRaid", "true")
+	h:SetAttribute("showSolo", "false")
 	h:Show()
 	return h
 end
 
 local function CreateHealersHeader(FrameName, ParentFrame)
 	local h = CreateHeader("SecureGroupHeaderTemplate", FrameName, ParentFrame)
-	h:SetAttribute("unitsPerColumn", 40) -- allow frame to show more than 5	
+	h:SetAttribute("unitsPerColumn", 40) -- allow frame to show more than 5
 	h:SetAttribute("roleFilter", "HEALER")
-	h:SetAttribute("showParty", "true")
-	h:SetAttribute("showRaid", "true")	
+	h:SetAttribute("showParty", "false")
+	h:SetAttribute("showRaid", "true")
+	h:SetAttribute("showSolo", "false")
 	h:Show()
 	return h
 end
@@ -242,22 +246,27 @@ local function CreateTanksHeader(FrameName, ParentFrame)
 	local h = CreateHeader("SecureGroupHeaderTemplate", FrameName, ParentFrame)
 	h:SetAttribute("unitsPerColumn", 40) -- allow frame to show more than 5
 	h:SetAttribute("roleFilter", "MT,TANK")
-	h:SetAttribute("showParty", "true")
-	h:SetAttribute("showRaid", "true")	
+	h:SetAttribute("showParty", "false")
+	h:SetAttribute("showRaid", "true")
+	h:SetAttribute("showSolo", "false")
 	h:Show()
 	return h
 end
 
 local function CreatePartyHeader(FrameName, ParentFrame)
 	local h = CreateHeader("SecureGroupHeaderTemplate", FrameName, ParentFrame)
-	h:SetAttribute("showSolo", "true")		
+	h:SetAttribute("showSolo", "false")
+	h:SetAttribute("showRaid", "false")
+	h:SetAttribute("showParty", "true")
 	h:Show()
 	return h
 end
 
 local function CreateMeHeader(FrameName, ParentFrame)
 	local h = CreateHeader("SecureGroupHeaderTemplate", FrameName, ParentFrame)
-	h:SetAttribute("showSolo", "true")		
+	h:SetAttribute("showSolo", "true")
+	h:SetAttribute("showRaid", "false")
+	h:SetAttribute("showParty", "false")
 	h:SetAttribute("nameList", UnitName("Player"))
 	h:Show()
 	return h
@@ -265,9 +274,9 @@ end
 
 local function CreateFriendsHeader(FrameName, ParentFrame)
 	local h = CreateHeader("SecureGroupHeaderTemplate", FrameName, ParentFrame)
-	h:SetAttribute("showSolo", "true")	
-	h:SetAttribute("showRaid", "true")	
-	h:SetAttribute("showParty", "true")	
+	h:SetAttribute("showSolo", "true")
+	h:SetAttribute("showRaid", "true")
+	h:SetAttribute("showParty", "true")
 	h:SetAttribute("unitsPerColumn", 20) -- allow friends frame to show more than 5
 	h:Show()
 	return h
@@ -277,7 +286,7 @@ local function CreateCustomHeader(FrameName, ParentFrame, Unit)
 	local h = CreateFrame("Button", FrameName, ParentFrame, "HealmeUnitFrames_ButtonTemplate")
 	h.isCustom = true
 	ParentFrame.hdr = h
-	h:SetAttribute("unit", Unit)		
+	h:SetAttribute("unit", Unit)
 	h:SetPoint("TOPLEFT", ParentFrame, "BOTTOMLEFT")
 	RegisterUnitWatch(h)
 	h:Show()
@@ -368,9 +377,9 @@ end
 
 function HealmeUnitFrames_OnMouseDown(frame, button)
 	if button == "LeftButton" and not Healme.LockFrames then
-		frame:StartMoving()	
+		frame:StartMoving()
 	end
-	
+
 	if button == "RightButton" then
 		Lib_ToggleDropDownMenu(1, nil, HealmeMenu, frame, 0, 0)
 	end
@@ -378,12 +387,12 @@ end
 
 function HealmeUnitFrames_OnMouseUp(frame, button)
 	if button == "LeftButton" then
-		frame:StopMovingOrSizing()	
+		frame:StopMovingOrSizing()
 	end
-	
+
 	if button == "RightButton" then
-	
-	end	
+
+	end
 end
 
 function HealmeUnitFrames_ShowHideFrame(frame, show)
@@ -392,45 +401,45 @@ function HealmeUnitFrames_ShowHideFrame(frame, show)
 		Healme_ShowPartyCheck:SetChecked(Healme.ShowPartyFrame)
 		return
 	end
-	
+
 	if frame == PetsFrame then
 		Healme.ShowPetsFrame = show
 		Healme_ShowPetsCheck:SetChecked(Healme.ShowPetsFrame)
 		return
 	end
-	
+
 	if frame == MeFrame then
 		Healme.ShowMeFrame = show
 		Healme_ShowMeCheck:SetChecked(Healme.ShowMeFrame)
 		return
 	end
-	
+
 	if frame == FriendsFrame then
 		Healme.ShowFriendsFrame = show
 		Healme_ShowFriendsCheck:SetChecked(Healme.ShowFriendsFrame)
 		return
 	end
-	
+
 	if frame == DamagersFrame then
 		Healme.ShowDamagersFrame = show
--- TODO DAMAGERS/HEALERS frame	
+-- TODO DAMAGERS/HEALERS frame
 		Healme_ShowDamagersCheck:SetChecked(Healme.ShowDamagersFrame)
 		return
 	end
-	
+
 	if frame == HealersFrame then
 		Healme.ShowHealersFrame = show
--- TODO DAMAGERS/HEALERS frame	
+-- TODO DAMAGERS/HEALERS frame
 		Healme_ShowHealersCheck:SetChecked(Healme.ShowHealersFrame)
 		return
 	end
-	
+
 	if frame == TanksFrame then
 		Healme.ShowTanksFrame = show
 		Healme_ShowTanksCheck:SetChecked(Healme.ShowTanksFrame)
 		return
 	end
-	
+
 	if frame == TargetFrame then
 		Healme_DebugPrint("ShowHide Target Frame")
 		Healme.ShowTargetFrame = show
@@ -439,7 +448,7 @@ function HealmeUnitFrames_ShowHideFrame(frame, show)
 		Healme_UpdateTargetFrame()
 		return
 	end
-	
+
 	if (not IsClassic) and (frame == FocusFrame) then
 		Healme_DebugPrint("ShowHide Focus Frame")
 		Healme.ShowFocusFrame = show
@@ -448,8 +457,8 @@ function HealmeUnitFrames_ShowHideFrame(frame, show)
 		Healme_UpdateFocusFrame()
 		return
 	end
-	
-	
+
+
 	for i,j in ipairs(GroupFrames) do
 		if frame == j then
 			Healme.ShowGroupFrames[i] = show
@@ -463,23 +472,23 @@ function HealmeUnitFrames_ShowHideFrame(frame, show)
 			Healme_ShowGroup8Check:SetChecked(Healme.ShowGroupFrames[8])
 			return
 		end
-	end	
+	end
 end
 
 function HealmeUnitFrames_Button_OnLoad(frame)
 	frame.buttons = { }
-	frame:RegisterForClicks("AnyUp")	
-	
+	frame:RegisterForClicks("AnyUp")
+
 	table.insert(Healme_Frames, frame)
-	
+
 	if Healme.EnableClique then
-		ClickCastFrames[frame] = true	
+		ClickCastFrames[frame] = true
 	end
 
 	-- configure buff frames
-	frame.buffs = { }	
+	frame.buffs = { }
 
-	local framename = frame:GetName()	
+	local framename = frame:GetName()
 	for i=1, MaxBuffs, 1 do
 		local buffframe = _G[framename.."_Buff"..i]
 		local name = buffframe:GetName()
@@ -515,7 +524,7 @@ function HealmeUnitFames_CheckPowerType(UnitName, NamePlate)
 	else
 		local powerColor = PowerBarColor[powerType];
 		NamePlate.ManaBar:SetStatusBarColor( powerColor.r, powerColor.g, powerColor.b )
-		NamePlate.showMana = true		
+		NamePlate.showMana = true
 	end
 
 	return true
@@ -525,40 +534,40 @@ end
 
 function HealmeUnitFrames_Button_OnShow(frame)
 	table.insert(Healme_ShownFrames, frame)
-end	
+end
 
 function HealmeUnitFrames_Button_OnHide(frame)
 	Healme_ShownFrames[frame] = nil
-	
+
 	local parent = frame:GetParent()
-	
-	if not frame.isCustom then 
+
+	if not frame.isCustom then
 		parent = parent:GetParent()
 	end
-	
+
 	if parent.childismoving then
-		parent:StopMovingOrSizing()		
+		parent:StopMovingOrSizing()
 		parent.childismoving = nil
 	end
 
-end	
+end
 
 function HealmeUnitFrames_Button_OnAttributeChanged(frame, name, value)
 	if name == "unit" or name == "unitsuffix" then
 		local newUnit = SecureButton_GetUnit(frame)
 		local oldUnit = frame.TargetUnit
-		
+
 		Healme_DebugPrint(newUnit)
-		
+
 --		if newUnit == oldUnit then
 --			return
 --		end
-		
+
 		if newUnit then
 			for i=1, Healme_MaxButtons, 1 do
 				local button = frame.buttons[i]
 				if not button then break end
-				
+
 				-- update cooldowns
 				Healme_UpdateButtonCooldown(button)
 			end
@@ -567,13 +576,13 @@ function HealmeUnitFrames_Button_OnAttributeChanged(frame, name, value)
 			if not Healme_Units[newUnit] then
 				Healme_Units[newUnit] = { }
 			end
-			
+
 			table.insert(Healme_Units[newUnit], frame)
 
 			for i =1, MaxBuffs, 1 do
 				frame.buffs[i].unit = newUnit
 			end
-			
+
 			HealmeUnitFames_CheckPowerType(newUnit, frame)
 
 			Healme_UpdateUnitName(newUnit, frame)
@@ -590,7 +599,7 @@ function HealmeUnitFrames_Button_OnAttributeChanged(frame, name, value)
 			end
 
 		end
-		
+
 		if oldUnit then
 			if Healme_Units[oldUnit] then
 				for i,v in ipairs(Healme_Units[oldUnit]) do
@@ -601,7 +610,7 @@ function HealmeUnitFrames_Button_OnAttributeChanged(frame, name, value)
 				end
 			end
 		end
-	
+
 		frame.TargetUnit = newUnit
 	end
 end
@@ -609,34 +618,34 @@ end
 function HealmeUnitFrames_Button_OnMouseDown(frame, button)
 	if button == "RightButton" and not Healme.LockFrames then
 		local parent = frame:GetParent()
-		
-		if not frame.isCustom then 
+
+		if not frame.isCustom then
 			parent = parent:GetParent()
 		end
 
 		parent.childismoving = true
-		parent:StartMoving()	
+		parent:StartMoving()
 	end
 end
 
 function HealmeUnitFrames_Button_OnMouseUp(frame, button)
 	if button == "RightButton" then
 		local parent = frame:GetParent()
-		
-		if not frame.isCustom then 
+
+		if not frame.isCustom then
 			parent = parent:GetParent()
 		end
 
-		parent:StopMovingOrSizing()		
+		parent:StopMovingOrSizing()
 		parent.childismoving = nil
-	end	
+	end
 end
 
 local function IsAnyUnitFrameVisible()
 	local visible
-	
+
 	for _,j in pairs(UnitFrames) do
-		if j:IsShown() then 
+		if j:IsShown() then
 			return true
 		end
 	end
@@ -659,7 +668,7 @@ function Healme_HealSpec()
 		[10] = 'Monk',
 		[11] = 'Druid',
 		[12] = 'DemonHunter',]]
-		
+
 	if (classId == 2 and specId == 1) or
 	(classId == 5 and specId == 2) or
 	(classId == 7 and specId == 3) or
@@ -683,7 +692,7 @@ function Healme_NonSpecHide()
 			else
 				local frame = _G["Healme" .. frameName .. "Frame"];
 				frame:SetAlpha(0);
-				frame:EnableMouse(false);				
+				frame:EnableMouse(false);
 			end
 		end
 	else
@@ -709,7 +718,7 @@ function Healme_ToggleAllFrames()
 		Healme_Warn("Can't toggle frames while in combat.")
 		return
 	end
-	
+
 	local hide = false
 
 	if PartyFrame:IsShown() then hide = true end
@@ -720,8 +729,8 @@ function Healme_ToggleAllFrames()
 	if HealersFrame:IsShown() then hide = true end
 	if TanksFrame:IsShown() then hide = true end
 	if TargetFrame:IsShown() then hide = true end
-	
-	if not IsClassic then 
+
+	if not IsClassic then
 		if FocusFrame:IsShown() then hide = true end
 	end
 
@@ -731,21 +740,21 @@ function Healme_ToggleAllFrames()
 			break
 		end
 	end
-	
+
 	if hide then
 		PartyFrameWasShown = PartyFrame:IsShown()
-		PetsFrameWasShown = PetsFrame:IsShown()	
+		PetsFrameWasShown = PetsFrame:IsShown()
 		MeFrameWasShown = MeFrame:IsShown()
 		FriendsFrameWasShown = FriendsFrame:IsShown()
-		DamagersFrameWasShown = DamagersFrame:IsShown()		
-		HealersFrameWasShown = HealersFrame:IsShown() 
+		DamagersFrameWasShown = DamagersFrame:IsShown()
+		HealersFrameWasShown = HealersFrame:IsShown()
 		TanksFrameWasShown = TanksFrame:IsShown()
 		TargetFrameWasShown = TargetFrame:IsShown()
-		
-		if not IsClassic then 
+
+		if not IsClassic then
 			FocusFrameWasShown = FocusFrame:IsShown()
 		end
-	
+
 		PartyFrame:Hide()
 		PetsFrame:Hide()
 		MeFrame:Hide()
@@ -754,22 +763,22 @@ function Healme_ToggleAllFrames()
 		HealersFrame:Hide()
 		TanksFrame:Hide()
 		TargetFrame:Hide()
-		
-		if not IsClassic then 
+
+		if not IsClassic then
 			FocusFrame:Hide()
 		end
-		
+
 		for i,j in ipairs(GroupFrames) do
 			GroupFramesWasShown[i] = j:IsShown()
 			j:Hide()
 		end
-		
+
 		Healme_Print("Current frames are now hidden.")
 		return
 	end
-	
+
 	-- after this point, we know we are showing frames
-	
+
 	if PartyFrameWasShown then PartyFrame:Show() end
 	if PetsFrameWasShown then PetsFrame:Show() end
 	if MeFrameWasShown then MeFrame:Show() end
@@ -778,29 +787,29 @@ function Healme_ToggleAllFrames()
 	if HealersFrameWasShown then HealersFrame:Show() end
 	if TanksFrameWasShown then TanksFrame:Show() end
 	if TargetFrameWasShown then TargetFrame:Show() end
-	
-	if not IsClassic then 
+
+	if not IsClassic then
 		if FocusFrameWasShown then FocusFrame:Show() end
 	end
-	
+
 	for i,j in ipairs(GroupFramesWasShown) do
 		if j then
 			GroupFrames[i]:Show()
 		end
 	end
-	
+
 	if IsAnyUnitFrameVisible() == nil then
 		PartyFrame:Show()
 		PetsFrame:Show()
 	end
-	
+
 	Healme_Print("Current frames are now shown.")
 end
 
 function Healme_ShowHidePartyFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowPartyFrame = show end
-	
+
 	if Healme.ShowPartyFrame then
 		PartyFrame:Show()
 	else
@@ -811,7 +820,7 @@ end
 function Healme_ShowHidePetsFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowPetsFrame = show end
-	
+
 	if Healme.ShowPetsFrame then
 		PetsFrame:Show()
 	else
@@ -822,7 +831,7 @@ end
 function Healme_ShowHideMeFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowMeFrame = show end
-	
+
 	if Healme.ShowMeFrame then
 		MeFrame:Show()
 	else
@@ -833,7 +842,7 @@ end
 function Healme_ShowHideFriendsFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowFriendsFrame = show end
-	
+
 	if Healme.ShowFriendsFrame then
 		FriendsFrame:Show()
 	else
@@ -844,7 +853,7 @@ end
 function Healme_ShowHideDamagersFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowDamagersFrame = show end
-	
+
 	if Healme.ShowDamagersFrame then
 		DamagersFrame:Show()
 	else
@@ -855,7 +864,7 @@ end
 function Healme_ShowHideHealersFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowHealersFrame = show end
-	
+
 	if Healme.ShowHealersFrame then
 		HealersFrame:Show()
 	else
@@ -866,7 +875,7 @@ end
 function Healme_ShowHideTanksFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowTanksFrame = show end
-	
+
 	if Healme.ShowTanksFrame then
 		TanksFrame:Show()
 	else
@@ -877,7 +886,7 @@ end
 function Healme_ShowHideTargetFrame(show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowTargetFrame = show end
-	
+
 	if Healme.ShowTargetFrame then
 		TargetFrame:Show()
 	else
@@ -891,20 +900,20 @@ function Healme_ShowHideFocusFrame(show)
 	if IsClassic then return end
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowFocusFrame = show end
-	
+
 	if Healme.ShowFocusFrame then
 		FocusFrame:Show()
 	else
 		FocusFrame:Hide()
 	end
-	
+
 	Healme_UpdateShowFocusFrame()
 end
 
 function Healme_ShowHideGroupFrame(group, show)
 	if InCombatLockdown() then return end
 	if (show ~= nil) then Healme.ShowGroupFrames[group] = show end
-	
+
 	if Healme.ShowGroupFrames[group] then
 		GroupFrames[group]:Show()
 	else
@@ -922,7 +931,7 @@ end
 
 function Healme_ShowAllRaidFramesWithMembers()
 end
-		
+
 function Healme_Show10ManRaidFrames()
 	if InCombatLockdown() then return end
 	GroupFrames[1]:Show()
@@ -952,56 +961,56 @@ function Healme_CreateUnitFrames()
 	HealersFrame = CreateHealersUnitFrame("HealmeHealersFrame", "Healers")
 	TanksFrame = CreateTanksUnitFrame("HealmeTanksFrame", "Tanks")
 	TargetFrame = CreateTargetUnitFrame("HealmeTargetFrame", "Target")
-	
-	if not IsClassic then 
+
+	if not IsClassic then
 		FocusFrame = CreateFocusUnitFrame("HealmeFocusFrame", "Focus")
 	end
-	
+
 	for i=1, 8, 1 do
 		GroupFrames[i] = CreateGroupUnitFrame("HealmeGroup" .. i .. "Frame", "Group " .. i, tostring(i))
 		GroupFramesWasShown[i]  = false
-	end	
-	
+	end
+
 end
 
 
 function Healme_SetScale()
 	local Scale = Healme.Scale
-	
+
 	PartyFrame:SetScale(Scale)
-	PetsFrame:SetScale(Scale)	
+	PetsFrame:SetScale(Scale)
 	MeFrame:SetScale(Scale)
 	FriendsFrame:SetScale(Scale)
 	DamagersFrame:SetScale(Scale)
 	HealersFrame:SetScale(Scale)
 	TanksFrame:SetScale(Scale)
 	TargetFrame:SetScale(Scale)
-	
-	if not IsClassic then 
+
+	if not IsClassic then
 		FocusFrame:SetScale(Scale)
 	end
-	
+
 	for i,j in ipairs(GroupFrames) do
 		j:SetScale(Scale)
-	end	
+	end
 end
 
 function Healme_MakeRankedSpellName(spellName, spellSubtext)
 	local rankedSpellName
-	
+
 	if spellSubtext == "" then
 		spellSubtext = nil
 	end
-		
+
 	if spellSubtext then
 		rankedSpellName = spellName .. "(" .. spellSubtext .. ")"
 	else
 		rankedSpellName = spellName
 	end
-	
+
 	return rankedSpellName
 end
-		
+
 function Healme_UpdateUnitBuffs(unit, frame)
 
 	local buffIndex = 1
@@ -1010,31 +1019,31 @@ function Healme_UpdateUnitBuffs(unit, frame)
 	if Healme.ShowBuffs then
 		for i=1, 100, 1 do
 			local name, icon, count, debuffType, duration, expirationTime, source, isStealable = UnitBuff(unit, i)
-			if name then 
+			if name then
 				if (source == "player") then
-					
+
 					local armed = false
-					
+
 					for j=1, Profile.ButtonCount, 1 do
 						if Profile.SpellNames[j] == name or name == RejuvenationGermination or name == EternalFlame or name == Atonement or name == GlimmerOfLight or name == Tranquility then
 							armed = true
 							break
 						end
 					end
-					
+
 					if armed == true then
 						local buffFrame = frame.buffs[buffIndex]
 
 						buffFrame:SetID(i)
 						buffFrame.icon:SetTexture(icon)
-						
+
 						if count > 1 then
 							buffFrame.count:SetText(count)
 							buffFrame.count:Show()
 						else
 							buffFrame.count:Hide()
 						end
-						
+
 						if duration and duration > 0 then
 							local startTime = expirationTime - duration
 							buffFrame.cooldown:SetCooldown(startTime, duration)
@@ -1042,13 +1051,13 @@ function Healme_UpdateUnitBuffs(unit, frame)
 						else
 							buffFrame.cooldown:Hide()
 						end
-						
+
 						buffFrame:Show()
-						buffIndex = buffIndex + 1					
+						buffIndex = buffIndex + 1
 						if buffIndex > MaxBuffs then
 							break
-						end			
-						
+						end
+
 					end
 				end
 			else
@@ -1061,33 +1070,33 @@ function Healme_UpdateUnitBuffs(unit, frame)
 	for i = buffIndex, MaxBuffs, 1 do
 		frame.buffs[i]:Hide()
 	end
-	
+
 	-- Handle affliction notification
 	if Healme.EnableDebufs then
-	
+
 		local foundDebuff = false
-		local debuffTypes = { } 
-		
+		local debuffTypes = { }
+
 		for i = 1, 40, 1 do
 			local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitDebuff(unit, i)
-			
+
 			if name == nil then
 				break
 			end
-			
+
 			if debuffType ~= nil then
 				if Healme_CanCureDebuff(debuffType) then
 					foundDebuff = true
 					debuffTypes[debuffType] = true
-					local debuffColor = DebuffTypeColor[debuffType] or DebuffTypeColor["none"];					
+					local debuffColor = DebuffTypeColor[debuffType] or DebuffTypeColor["none"];
 					frame.hasDebuf = true
 					frame.debuffColor = debuffColor
-					
+
 					if Healme.EnableDebufHealthbarHighlighting then
 						frame.CurseBar:SetBackdropBorderColor(debuffColor.r, debuffColor.g, debuffColor.b)
 						frame.CurseBar:SetAlpha(1)
-					end	
-					
+					end
+
 					if Healme.EnableDebufAudio then
 						local now = GetTime()
 						if unit == "player" or UnitInRange(unit) then -- UnitInRange will return false for "player"
@@ -1100,16 +1109,16 @@ function Healme_UpdateUnitBuffs(unit, frame)
 				end
 			end
 		end
-		
+
 		if (not foundDebuff) and frame.hasDebuf then
 			frame.CurseBar:SetAlpha(0)
 			frame.hasDebuf = nil
 		end
-		
+
 		if Healme.EnableDebufButtonHighlighting then
 			Healme_ShowDebuffButtons(Profile, frame, debuffTypes)
 		end
-		
+
 		Healme_UpdateUnitHealth(unit, frame)
 	end
 end
@@ -1119,7 +1128,7 @@ function Healme_UpdateEnableDebuffs()
 		if j.hasDebuf then
 			frame.CurseBar:SetAlpha(0)
 			frame.hasDebuf = nil
-			
+
 			for i=1, Healme_MaxButtons, 1 do
 				local button = frame.button[i]
 				if button then
@@ -1127,7 +1136,7 @@ function Healme_UpdateEnableDebuffs()
 					button.curseBar.hasDebuf = nil
 				end
 			end
-		end	
+		end
 	end
 end
 
@@ -1139,7 +1148,7 @@ end
 function Healme_UpdateEnableClique()
 	for _,k in ipairs(Healme_Frames) do
 		if Healme.EnableClique then
-			ClickCastFrames[k] = true	
+			ClickCastFrames[k] = true
 		else
 			ClickCastFrames[k] = nil
 			k:SetAttribute("type1", "target")

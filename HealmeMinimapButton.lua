@@ -1,5 +1,9 @@
 local MiniMapTexture = "Interface\\AddOns\\Healme\\images\\heartx64.tga"  -- Heart
 
+-- Register icon api
+local icon = LibStub("Interface\\AddOns\\Healme\\libs\\DBI\\LibDBIcon-1.0\\LibDBIcon-1.0")
+
+
 function Healme_CreateMiniMapButton()
   local button = CreateFrame("Button", "HealmeMiniMap", Minimap)
   --button:SetFrameStrata("MEDIUM") -- needed or else appears underneath
