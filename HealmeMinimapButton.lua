@@ -1,7 +1,8 @@
 local MiniMapTexture = "Interface\\AddOns\\Healme\\images\\heartx64.tga"  -- Heart
 
 -- Register icon api
-local icon = LibStub("Interface\\AddOns\\Healme\\libs\\DBI\\LibDBIcon-1.0\\LibDBIcon-1.0")
+local HealmeMiniMapicon = LibStub("LibDBIcon-1.0")
+-- HealmeMiniMapicon:Register("HealmeMinimap", HealmeMiniMap, Minimap)
 
 
 function Healme_CreateMiniMapButton()

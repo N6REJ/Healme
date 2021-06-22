@@ -18,7 +18,7 @@ local NamePlateWidth = 120
 local _, HealmeClass = UnitClass("player")
 local _, HealmeRace = UnitRace("player")
 local HealmeSpec = GetSpecialization()
-local MaxParty = 5 -- Max number of people in party
+local MaxParty = 25 -- Max number of people in party
 local MinRangeCheckPeriod = .2 -- .2 = 5Hz
 local MaxRangeCheckPeriod = 2  -- 2 = .5Hz
 local DefaultRangeCheckPeriod = .5
@@ -1355,9 +1355,9 @@ function Healme_OnEvent(frame, event, ...)
 		Healme_ShowHidePartyFrame()
 		Healme_ShowHidePetsFrame()
 		Healme_ShowHideMeFrame()
-		Healme_ShowHideDamagersFrame()
-		Healme_ShowHideHealersFrame()
 		Healme_ShowHideTanksFrame()
+		Healme_ShowHideHealersFrame()
+		Healme_ShowHideDamagersFrame()
 		Healme_ShowHideFriendsFrame()
 		Healme_ShowHideTargetFrame()
 		Healme_ShowHideFocusFrame()
